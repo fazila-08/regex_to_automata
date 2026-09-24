@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Regex → ε-NFA → DFA Visualizer</title>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="dot"></span><h1>Regex → ε‑NFA → DFA</h1></div>
+    <div class="sub">From pattern to automaton, one step at a time.</div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="card">
+        <label class="lbl">Regular expression</label>
+        <input id="regex" class="input mono" value="(a|b)*abb" spellcheck="false" />
+        <input id="extra" class="input mono small" placeholder="extra symbols for . (e.g. ab)" spellcheck="false" />
+        <div class="chips" id="examples"></div>
+        <button id="build" class="btn primary">Build automaton</button>
+        <div id="error" class="error hidden"></div>
+      </div>
+
+      <div class="card">
+        <label class="lbl">Trace</label>
+        <div class="trace-head">
+          <span id="stageBadge" class="badge">—</span>
+          <span id="stepCount" class="muted">0 / 0</span>
+        </div>
+        <div id="stepTitle" class="step-title">—</div>
+        <div id="stepDetail" class="step-detail">Press “Build automaton”.</div>
+        <div class="row">
+          <button id="prev" class="btn">◀ Prev</button>
+          <button id="play" class="btn">▶ Play</button>
+          <button id="next" class="btn">Next ▶</button>
+        </div>
+        <input id="scrub" type="range" min="0" max="0" value="0" class="range" />
+      </div>
+
+      <div class="card">
+        <label class="lbl">Test a string</label>
+        <input id="testInput" class="input mono" value="aababb" spellcheck="false" />
+        <button id="testBtn" class="btn">Run on NFA + DFA</button>
+        <div id="testResult" class="test-result"></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="tabs" id="tabs">
+        <button class="tab" data-tab="ast">AST</button>
+        <button class="tab active" data-tab="nfa">ε‑NFA</button>
+        <button class="tab" data-tab="dfa">DFA</button>
+        <button class="tab" data-tab="min">Minimized</button>
+        <button class="tab" data-tab="tables">Tables</button>
+      </div>
+
+      <div class="panel" id="panel-ast">
+        <div class="panel-head"><span>Abstract syntax tree</span><span class="muted" id="astMeta"></span></div>
+        <div id="astBody" style="overflow:auto"></div>
+      </div>
+
+      <div class="panel active" id="panel-nfa">
+        <div class="panel-head"><span>ε‑NFA (Thompson)</span><span class="muted" id="nfaMeta"></span></div>
+        <div class="graph" id="nfaGraph"><div class="empty">—</div></div>
+      </div>
+
+      <div class="panel" id="panel-dfa">
+        <div class="panel-head"><span>DFA (subset construction)</span><span class="muted" id="dfaMeta"></span></div>
+        <div class="graph" id="dfaGraph"><div class="empty">—</div></div>
+      </div>
+
+      <div class="panel" id="panel-min">
+        <div class="panel-head"><span>Minimized DFA</span><span class="muted" id="minMeta"></span></div>
+        <div class="graph" id="minGraph"><div class="empty">—</div></div>
+      </div>
+
+      <div class="panel" id="panel-tables">
+        <div class="tbl-title">ε‑NFA transition table</div>
+        <div class="tbl-wrap" id="nfaTable"></div>
+        <div class="tbl-title">DFA transition table</div>
+        <div class="tbl-wrap" id="dfaTable"></div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
